@@ -1,0 +1,41 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "d5299c180ba89a9a0d319f108703e909"
+application_url = "https://example.com"
+embedded = true
+name = "Pre order system"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_products,write_products,read_purchase_options,write_purchase_options,read_orders,write_orders"
+
+[product.metafields.pre_order.settings]
+type = "json"
+name = "Pre-order settings"
+description = "Stores the storefront pre-order button configuration for this product"
+
+  [product.metafields.pre_order.settings.access]
+  admin = "merchant_read_write"
+  storefront = "public_read"
+
+[webhooks]
+api_version = "2026-10"
+
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/app/uninstalled"
+  topics = [ "app/uninstalled" ]
+
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/app/scopes_update"
+  topics = [ "app/scopes_update" ]
+
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/orders/create"
+  topics = [ "orders/create" ]
+
+[auth]
+redirect_urls = [ "https://example.com/api/auth" ]
+
+[build]
+include_config_on_deploy = true
+automatically_update_urls_on_dev = true
