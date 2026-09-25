@@ -1,0 +1,98 @@
+{% if block.settings.payment_link != blank %}
+  <div class="razorpay-advance-{{ block.id }}">
+    <a
+      class="razorpay-advance-button-{{ block.id }}"
+      href="{{ block.settings.payment_link | escape }}"
+      rel="noopener noreferrer"
+    >
+      {{ block.settings.button_label | escape }}
+    </a>
+    {% if block.settings.note != blank %}
+      <p class="razorpay-advance-note-{{ block.id }}">{{ block.settings.note | escape }}</p>
+    {% endif %}
+  </div>
+
+  <style>
+    .razorpay-advance-{{ block.id }} {
+      margin-block: 16px;
+    }
+
+    .razorpay-advance-button-{{ block.id }} {
+      align-items: center;
+      appearance: none;
+      background: {{ block.settings.button_background }};
+      border-radius: {{ block.settings.border_radius }}px;
+      color: {{ block.settings.button_text }};
+      cursor: pointer;
+      display: flex;
+      font: inherit;
+      font-weight: 600;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 24px;
+      text-align: center;
+      text-decoration: none;
+      width: 100%;
+    }
+
+    .razorpay-advance-button-{{ block.id }}:focus-visible {
+      outline: 3px solid rgba(35, 115, 255, 0.55);
+      outline-offset: 4px;
+    }
+
+    .razorpay-advance-note-{{ block.id }} {
+      color: rgba(18, 18, 18, 0.75);
+      font-size: 0.92em;
+      margin: 10px 0 0;
+    }
+  </style>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Razorpay advance button",
+  "target": "section",
+  "templates": ["product"],
+  "settings": [
+    {
+      "type": "url",
+      "id": "payment_link",
+      "label": "Razorpay payment link",
+      "info": "Create a Razorpay payment link for the advance, then paste it here. Payment is collected outside Shopify checkout."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Pre-order with Razorpay"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Payment note",
+      "default": "Pay the advance to reserve this item. The remaining balance will be invoiced separately."
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "default": 4
+    }
+  ]
+}
+{% endschema %}
