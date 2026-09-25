@@ -126,13 +126,9 @@ export const action = async ({ request }) => {
   const sellingPlanGroupIdToDelete = formData.get("sellingPlanGroupId")?.toString();
   const depositType = formData.get("depositType")?.toString();
   const depositValue = Number(formData.get("depositValue"));
-<<<<<<< HEAD
-  const balanceDueDays = Number(formData.get("balanceDueDays"));
-=======
   const balanceDueType = formData.get("balanceDueType")?.toString() || "days";
   const balanceDueDays = Number(formData.get("balanceDueDays"));
   const balanceDueDate = formData.get("balanceDueDate")?.toString() || "";
->>>>>>> 2eea769 (release001)
   const disabled = intent === "disable";
   const deleting = intent === "delete";
 
@@ -244,12 +240,6 @@ export const action = async ({ request }) => {
     return { ok: false, error: "Percentage deposit cannot be more than 100." };
   }
 
-<<<<<<< HEAD
-  if (!Number.isFinite(balanceDueDays) || balanceDueDays < 1) {
-    return { ok: false, error: "Balance due days must be at least 1." };
-  }
-
-=======
   if (!["days", "date"].includes(balanceDueType)) {
     return { ok: false, error: "Choose when the remaining balance is due." };
   }
@@ -272,7 +262,6 @@ export const action = async ({ request }) => {
     }
   }
 
->>>>>>> 2eea769 (release001)
   const checkoutCharge =
     depositType === "percentage"
       ? {
@@ -288,8 +277,6 @@ export const action = async ({ request }) => {
     depositType === "percentage"
       ? `${depositValue}% deposit`
       : `${depositValue.toFixed(2)} deposit`;
-<<<<<<< HEAD
-=======
   const balanceDueLabel =
     balanceDueType === "date"
       ? `on ${balanceDueDate}`
@@ -304,7 +291,6 @@ export const action = async ({ request }) => {
           remainingBalanceChargeTrigger: "TIME_AFTER_CHECKOUT",
           remainingBalanceChargeTimeAfterCheckout: `P${balanceDueDays}D`,
         };
->>>>>>> 2eea769 (release001)
 
   let sellingPlanData;
 
@@ -339,21 +325,12 @@ export const action = async ({ request }) => {
             {
               name: "Pre-order",
               category: "PRE_ORDER",
-<<<<<<< HEAD
-              options: `${depositLabel}. Balance due ${balanceDueDays} days after checkout`,
-=======
               options: `${depositLabel}. Balance due ${balanceDueLabel}`,
->>>>>>> 2eea769 (release001)
               description: `Reserve this item today with a ${depositLabel}.`,
               billingPolicy: {
                 fixed: {
                   checkoutCharge,
-<<<<<<< HEAD
-                  remainingBalanceChargeTrigger: "TIME_AFTER_CHECKOUT",
-                  remainingBalanceChargeTimeAfterCheckout: `P${balanceDueDays}D`,
-=======
                   ...remainingBalanceBilling,
->>>>>>> 2eea769 (release001)
                 },
               },
               deliveryPolicy: {
@@ -404,12 +381,8 @@ export const action = async ({ request }) => {
     ruleName,
     depositType,
     depositValue,
-<<<<<<< HEAD
-    balanceDueDays,
-=======
     balanceDueType,
     ...(balanceDueType === "date" ? { balanceDueDate } : { balanceDueDays }),
->>>>>>> 2eea769 (release001)
     sellingPlanGroupId,
     sellingPlanId,
     sellingPlanNumericId,
@@ -462,13 +435,9 @@ export default function Index() {
   const [ruleName, setRuleName] = useState("Pre-order rule");
   const [depositType, setDepositType] = useState("percentage");
   const [depositValue, setDepositValue] = useState(20);
-<<<<<<< HEAD
-  const [balanceDueDays, setBalanceDueDays] = useState(30);
-=======
   const [balanceDueType, setBalanceDueType] = useState("days");
   const [balanceDueDays, setBalanceDueDays] = useState(30);
   const [balanceDueDate, setBalanceDueDate] = useState("");
->>>>>>> 2eea769 (release001)
   const isSubmitting = fetcher.state !== "idle";
   const activeProducts = products.filter((product) => product.settings?.active);
   const rules = useMemo(() => {
@@ -491,13 +460,9 @@ export default function Index() {
         ruleName: settings.ruleName || "Pre-order rule",
         depositType: settings.depositType,
         depositValue: settings.depositValue,
-<<<<<<< HEAD
-        balanceDueDays: settings.balanceDueDays,
-=======
         balanceDueType: settings.balanceDueType || "days",
         balanceDueDays: settings.balanceDueDays,
         balanceDueDate: settings.balanceDueDate,
->>>>>>> 2eea769 (release001)
         sellingPlanGroupId: settings.sellingPlanGroupId,
         products: [product],
       });
@@ -541,13 +506,9 @@ export default function Index() {
     setRuleName("Pre-order rule");
     setDepositType("percentage");
     setDepositValue(20);
-<<<<<<< HEAD
-    setBalanceDueDays(30);
-=======
     setBalanceDueType("days");
     setBalanceDueDays(30);
     setBalanceDueDate("");
->>>>>>> 2eea769 (release001)
     setIsModalOpen(true);
   };
 
@@ -661,14 +622,10 @@ export default function Index() {
                     <div>
                       <strong>{rule.ruleName}</strong>
                       <p style={{ color: "#616161", margin: "6px 0 0" }}>
-<<<<<<< HEAD
-                        {depositLabel}. Balance due after {rule.balanceDueDays} day{rule.balanceDueDays === 1 ? "" : "s"}.
-=======
                         {depositLabel}. Balance due {rule.balanceDueType === "date"
                           ? `on ${rule.balanceDueDate}`
                           : `after ${rule.balanceDueDays} day${rule.balanceDueDays === 1 ? "" : "s"}`}
                         {rule.balanceDueType !== "date" ? " from checkout." : "."}
->>>>>>> 2eea769 (release001)
                       </p>
                       <p title={productNames} style={{ color: "#616161", fontSize: "13px", margin: "8px 0 0" }}>
                         {visibleProductNames}
@@ -852,16 +809,6 @@ export default function Index() {
                     step={depositType === "percentage" ? "1" : "0.01"}
                     value={depositValue}
                   />
-<<<<<<< HEAD
-                  <s-number-field
-                    label="Collect remaining balance after days"
-                    min="1"
-                    name="balanceDueDays"
-                    onChange={(event) => setBalanceDueDays(event.currentTarget.value)}
-                    step="1"
-                    value={balanceDueDays}
-                  />
-=======
                   <s-select
                     label="Collect remaining balance"
                     name="balanceDueType"
@@ -895,7 +842,6 @@ export default function Index() {
                       />
                     </label>
                   )}
->>>>>>> 2eea769 (release001)
                   <s-paragraph>
                     The selected products will share one Shopify pre-order selling plan.
                   </s-paragraph>
